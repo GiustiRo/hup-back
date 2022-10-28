@@ -9,4 +9,5 @@ services:
     environment:
       NODE_ENV: production
     ports:
+      - "3000"
       - "8080"

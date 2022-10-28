@@ -1,0 +1,18 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/feisty-vector-366600/hup-pub', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/feisty-vector-366600/hup-pub']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'huertup-public', '--image', 'gcr.io/feisty-vector-366600/hup-pub', '--region', 'southamerica-east1', '--platform', 'managed', '--port', '3000']
+images:
+- gcr.io/feisty-vector-366600/hup-pub
+
+# Para generar nueva instancia (de forma manual) de mi API, ejecutar en consola:
+# gcloud builds submit
+
+# Por ahora, si cambio las variables de entorno, debería cambiarlas tmb en GCP Console > Cloud Run > API > "Implementar y editar una nueva reivisión"
