@@ -129,3 +129,6 @@ dist/
 
 # Code coverage reports
 coverage/
+
+# Secrets
+secrets/
