@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Headers, UseGuards, Req, UseInterceptors, UploadedFile, HttpService } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Headers, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { AuthGuard } from '@nestjs/passport';
 import { StorageService, StorageBuckets } from 'src/storage/storage/storage.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { HttpService } from '@nestjs/axios';
 
 
 @Controller('users')

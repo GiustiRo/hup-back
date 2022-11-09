@@ -1,4 +1,4 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import appConfig from './config/app.config';
@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './resources/users/users.module';
 import { StorageModule } from './storage/storage.module';
 import { MediaModule } from './resources/media/media.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [

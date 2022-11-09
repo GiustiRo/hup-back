@@ -1,7 +1,8 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios'
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AppService {

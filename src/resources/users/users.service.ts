@@ -1,11 +1,12 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AxiosResponse } from 'axios'
+import { HttpModule, HttpService } from '@nestjs/axios'
 import { ConfigService } from '@nestjs/config';
 import { accessToken } from 'src/common/interfaces/json-object.interface';
 import { map } from 'rxjs/operators';
+import { AxiosResponse } from 'axios'
 
 
 @Injectable()
