@@ -2,13 +2,7 @@ import { registerAs } from '@nestjs/config';
 
 export default registerAs('gcs', () => ({
     projectId: process.env.GCS_PROJECT_ID,
-    private_key: process.env.GCS_PRIVATE_KEY,
+    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDvm89HcFNHDAq8\nMOlX/dva3mZPCl7cxVv/ZTrlC4zw44wplZ5hFHV6GoiqFKErCsGfv8KqE3WkVUW0\ntY27ElQAx4fMZu6mCFHKmEDkZ4gliiRvlIAOb6uwBO/8ZlQzKrtpuK8ujMhjzfUp\nFau/LWQv6tXxoJaEFaDFIUJDiRoJeTid04pSosCK1Ymx2LpWtsTVWRlVyh+hzvIC\nDOKMfd7OKkHnnJYOxDhvV2w2MOvqlv07E9SzJbZi+0tBnekg9RtmBrbsKTd350O3\nOb9jNbY/I6bOdYkCgfOh8sycr9zgiAxNzncmVO6Gyv/jQY4+kKQ1I/ExJf4Myo3k\nQkd6eW6/AgMBAAECggEAOR9kIxvcPqvYQ1VFy/xxVZR/v4gxZWCHtjNj/wbp6uPU\nnnVU9L/z4dBBlIqmgaRm1LbaqcFJ4ouRuqstxtNvw1/OOCSx8FM7bJkvn0QvaQOt\n/AvjG43z2FrU+89Jc4lUdLfay7Y0b9bCA7Fu6HzhzaqmppwqRgMB+P0c1wzwcCFI\nDQ0TduvYUDrBM7e4OWTqZCpK0t1Ni5YJsqRytirNSDmPmuKLU/LyauBjAqtTW5TN\nbYYhoSlI0orqxpJRyJrETlBbjNS1SvpUvePIwG5f+P910wfiQ4Yyh+WzteEwhuU9\nyVPHfoc/NyIJJCWIobg0MPDNXNIyY39jbcnyEVd5QQKBgQD6hHe26VbdvBoOnAdK\ncZBQLVrytWLmHDAeqMur7s/zq8DRtf8sDA2Gsn3rKWb8r5h5WhOqPkgHs9UpRtrJ\nDeajbxLn3tS1HpP5FnSyfmTXP5ZSTxNQUPvSzWQoQLA0WQQmeqINnO7kf2TFa6ye\no1rymwbnD5l57CcluSNyxMTmFQKBgQD02jma+zNBYX37C3KZ9CPnM+jus6uCyAT7\nUSh7hXhhlN0vXgQUTwfcHMEoY7jtJqySyLFE8kMbJ/GdCiVuBPTT1ZTgRQj42cpR\nLawq15dR902k8Ky4LcfU1bussJinvdGuy2oBruiASjrWFt29BYCTLC+uSFscnJx6\nLDZL8GdqgwKBgGm6PHgS1JlySKD/0sflU92ytp6WVO3+2YQnAwZGHLefNhqLr+zc\nDV1auW/lIlTkmvokPQZtkKLHj+ACylVuK3ewag836RejlxnaE1g9pbt+V6fXPbR4\n6T7XdjzSyErfgrPmr7wFDoGbDmGPhuPQ15JqQSiFWeWt9/ugvkgyqVLdAoGAUaUW\nwkvy+mEk3foiO53B/w07JaU5koFZz+dvBUkrK/a0jl/eIlt79nSMIAiomENmFgff\nvGq/36VBFqlUc8wpSx2T5/h9FmWg5dLB7wM2jPlWpaIvJbb2RE0EqH+2V3CfI5bm\ngSsukeCun8a+J5JXHjwEpiuwXekG8GIftNCz2zsCgYBxrtF2KWS8h4h05XE+SQrQ\ne4S0QPum0glWLLNIzbW+NznHr09IuALcMKkJreq3cizqy7/4EZ/E5z6jC6hPKVaK\nrc91kX1BQZZokiYeEu5uSUUoU14YWE22t6bwob9RuaMHudqR8J8MzvkbnIS/ArLb\nUS5vxME5u/S68Y9oRwQgeQ==\n-----END PRIVATE KEY-----\n",
     client_email: process.env.GCS_CLIENT_EMAIL,
     gcsBucket_AVATARS: process.env.GCS_STORAGE_MEDIA_BUCKET_AVATARS,
 }));
-
-
-// const StorageConfig = {
-// };
-
-// export default StorageConfig;

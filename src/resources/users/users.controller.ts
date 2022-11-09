@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Headers, UseGuards, Req, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Headers, UseGuards, Req, UseInterceptors, UploadedFile, HttpService } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -13,7 +13,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private http: HttpService
   ) { }
 
   @UseGuards(AuthGuard('jwt_M2M'))
@@ -45,7 +46,8 @@ export class UsersController {
   @Post('profile-picture')
   async uploadMedia(
     @UploadedFile() file: Express.Multer.File,
-    @Body("userId") userId: string
+    @Body("userId") userId: string,
+    @Headers() headers
   ) {
     try {
       const pic = await this.storageService.save(
@@ -54,10 +56,32 @@ export class UsersController {
         file.buffer,
         [{ userId: userId }],
         StorageBuckets.AVATARS
-      );
-      return {
-        msg: 'Foto subida exitosamente!'
-      }
+      ).then(async (res) => {
+        console.warn(res);
+        // Update pic to user profile Auth0 / Mongo.
+        let urlPicture = `https://storage.googleapis.com/hup_avatars/${userId}`;
+        let urlUpdatePicture = `https://huertup.us.auth0.com/api/v2/users/${userId}`;
+        const patchResponse = await this.http.patch(urlUpdatePicture, {
+          picture: urlPicture,
+        },
+          {
+            headers: {
+              'Authorization': `${headers?.authorization}`
+            }
+          }).toPromise().then(res => {
+            console.warn('patch response:', res);
+            return { msg: 'Picture updated successfully!!', urlPicture }
+          }).catch(err => {
+            return { msg: err.message || 'Error trying to update your picture.' }
+          })
+        return patchResponse
+      }).catch(err => {
+        return { msg: 'Error uploading your picture.' }
+      });
+      // return {
+      //   msg: 'Foto subida exitosamente!'
+      // }
+      return pic
     } catch (error) {
       console.log(error)
       return { msg: error }
