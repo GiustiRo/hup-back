@@ -32,7 +32,7 @@ export class StorageService {
         console.warn(contentType);
 
         const object = metadata.reduce((obj, item) => Object.assign(obj, item), {});
-        const file = this.storage.bucket(this.configService.get<string>(`gcs.gcsBucket_${bucket}`)).file(`${path}.${StorageMymeTypeDicc[contentType]}`);
+        const file = this.storage.bucket(this.configService.get<string>(`gcs.gcsBucket_${bucket}`)).file(`${path}.${(StorageMymeTypeDicc[contentType] || 'png')}`);
         const stream = file.createWriteStream();
         await stream.on('error', (error) => {
             console.error('stream error', error)

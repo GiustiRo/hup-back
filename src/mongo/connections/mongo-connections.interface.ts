@@ -1,3 +1,7 @@
+export enum MONGO_DATABASE {
+    MAIN = 'hupDB',
+}
+
 export enum MONGO_CONNECTIONS {
     USERS = 'users',
     PLANTS = 'plants'
