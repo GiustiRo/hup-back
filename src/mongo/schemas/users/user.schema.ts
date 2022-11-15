@@ -6,8 +6,8 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User extends iUser {
-  // @Prop()
-  // name: string;
+  @Prop()
+  picture: string;
 
   // @Prop()
   // age: number;
