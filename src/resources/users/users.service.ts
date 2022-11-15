@@ -1,19 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HttpService } from '@nestjs/axios'
 import { ConfigService } from '@nestjs/config';
-import { accessToken } from 'src/common/interfaces/json-object.interface';
-import { map } from 'rxjs/operators';
-import { AxiosResponse } from 'axios'
 import { MONGO_CONNECTIONS } from 'src/mongo/connections/mongo-connections.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/mongo/schemas/users/user.schema';
 import { Model } from 'mongoose';
 import { StorageService, StorageBuckets } from 'src/storage/storage/storage.service';
-
-
 
 @Injectable()
 export class UsersService {
@@ -50,6 +44,8 @@ export class UsersService {
 
   async updatePicture(file, userId: string, headers) {
     try {
+      console.warn(file.mimetype);
+
       const pic = this.storageService.save(
         userId,
         file.mimetype, // this will represent the file extension.

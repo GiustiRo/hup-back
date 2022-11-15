@@ -1,6 +1,7 @@
 import { DownloadResponse, Storage } from "@google-cloud/storage";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from '@nestjs/config';
+import { getTimeInMs } from "src/utils/date-utils";
 
 
 @Injectable()
@@ -33,7 +34,7 @@ export class StorageService {
 
         const object = metadata.reduce((obj, item) => Object.assign(obj, item), {});
         const file = this.storage.bucket(this.configService.get<string>(`gcs.gcsBucket_${bucket}`)).file(`${path}.${(StorageMymeTypeDicc[contentType] || 'png')}`);
-        const stream = file.createWriteStream();
+        const stream = file.createWriteStream({});
         await stream.on('error', (error) => {
             console.error('stream error', error)
             return error
@@ -102,4 +103,9 @@ export const StorageMymeTypeDicc = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpeg',
 
+}
+
+export function fileNameUniqueGenerator(key: string): string {
+    /* Will add ms timestamp to the key/name */
+    return `${key}_${getTimeInMs()}`
 }
