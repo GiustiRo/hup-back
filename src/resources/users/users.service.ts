@@ -17,40 +17,29 @@ export class UsersService {
     private storageService: StorageService,
     @InjectModel(User.name, MONGO_CONNECTIONS.USERS) private userModel: Model<UserDocument>
   ) { }
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
 
-  findOne(url, params, authorization): Promise<UserDocument> {
-    // return this.http.get(`${this.configService.get<string>('auth.audience_MGMT_API')}/users/${params.user_id}`,
-    //   { headers: { 'Authorization': `${authorization}` } });
-    return this.userModel.findOne({ user_id: params.user_id }).exec();
+  async findOne(params): Promise<UserDocument> {
+    return await this.userModel.findOne({ user_id: params.user_id });
   }
 
   async findAll() {
-    const result = await this.userModel.find();
-    console.warn(result);
-
-    return result;
+    return await this.userModel.find();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(user_id: string, updateUserDto: Partial<UserDocument>) {
+    await this.userModel.findByIdAndUpdate(user_id, { ...updateUserDto }, { returnDocument: 'after' })
+    return { message: 'Tus datos se actualizaron con éxito!' };;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
-  async updatePicture(file, userId: string, headers) {
+  async updatePicture(file, userId: string) {
     try {
       console.warn(file.mimetype);
-
       const pic = this.storageService.save(
         userId,
-        file.mimetype, // this will represent the file extension.
+        file.mimetype,
         file.buffer,
-        [{ userId: userId }],
+        null, // [{ user_id: userId }],
+        [{ cacheControl: 'no-store' }],
         StorageBuckets.AVATARS
       ).then(async (res) => {
         // Update pic to user profile Auth0 / Mongo. (Auth gives problems if idp != auth0).
@@ -73,5 +62,11 @@ export class UsersService {
     }
   }
 
+  // create(createUserDto: CreateUserDto) {
+  //   return 'This action adds a new user';
+  // }
+  // remove(id: number) {
+  //   return `This action removes a #${id} user`;
+  // }
 
 }

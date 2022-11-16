@@ -4,7 +4,7 @@ export class User { }
 
 
 
-export class iUser extends User {
+export class iUser {
     _id?: any;
     created_at: string;
     email: string;

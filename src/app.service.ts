@@ -28,11 +28,7 @@ export class AppService {
 
   authenticate(): Observable<AxiosResponse> {
     return this.http.post(`https://${this.configService.get<string>('auth.domain')}/oauth/token`, this.m2mAPI)
-    // .pipe(map((res: AxiosResponse<accessToken>) => {
-    //   // At this point, if Auth goes OK, I need to store Access Token to reuse it along the API => Reused from Client side (avoid XXS attacks).
-    //   // this.accessToken$.next(res.data.access_token);
-    //   return res
-    // })
+    // Stored & Reused from Client side (avoid XXS attacks) as per good practices.
   }
 
 }

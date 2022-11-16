@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { StorageService, StorageBuckets } from 'src/storage/storage/storage.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { HttpService } from '@nestjs/axios';
+import { UserDocument } from 'src/mongo/schemas/users/user.schema';
 
 
 @Controller('users')
@@ -19,8 +20,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt_M2M'))
   @Get('userinfo/:id')
   getUserDetails(@Req() req, @Param() params, @Headers() headers): Observable<any> {
-    // return this.usersService.findOne(req?.url, { user_id: params?.id }, headers?.authorization).pipe(map(res => res?.data));
-    return of(this.usersService.findOne(req?.url, { user_id: params?.id }, headers?.authorization));
+    return of(this.usersService.findOne({ user_id: params?.id }));
   }
 
   @Get()
@@ -28,9 +28,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt_M2M'))
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateUserDto: Partial<UserDocument>) {
+    return of(this.usersService.update(id, updateUserDto));
   }
 
   // Upload file to GCS (then use url to update user details).
@@ -49,7 +50,7 @@ export class UsersController {
     @Body("userId") userId: string,
     @Headers() headers
   ) {
-    return of(this.usersService.updatePicture(file, userId, headers))
+    return of(this.usersService.updatePicture(file, userId))
   }
 
   // This controller will not Create/Delete users for now => Auth0 Server does.

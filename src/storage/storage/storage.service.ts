@@ -7,7 +7,6 @@ import { getTimeInMs } from "src/utils/date-utils";
 @Injectable()
 export class StorageService {
     private storage: Storage;
-    private bucket: string;
 
     constructor(
         private configService: ConfigService
@@ -19,29 +18,32 @@ export class StorageService {
                 private_key: this.configService.get<string>('gcs.private_key'),
             },
         });
-        // this.bucket = this.configService.get<string>('gcs.gcsBucket__AVATARS');
     }
 
     async save(
         path: string,
-        contentType: string,
+        contentType: string, /* also as mimetype.*/
         media: Buffer,
+        customMetadata: { [key: string]: string }[],
         metadata: { [key: string]: string }[],
         bucket: StorageBuckets
     ) {
-        console.log(path)
         console.warn(contentType);
+        const customMetadataObject = customMetadata?.reduce((obj, item) => Object.assign(obj, item), {});
+        const file = this.storage
+            .bucket(this.configService.get<string>(`gcs.gcsBucket_${bucket}`))
+            .file(`${path}.${(StorageMymeTypeDicc[contentType])}`);
 
-        const object = metadata.reduce((obj, item) => Object.assign(obj, item), {});
-        const file = this.storage.bucket(this.configService.get<string>(`gcs.gcsBucket_${bucket}`)).file(`${path}.${(StorageMymeTypeDicc[contentType] || 'png')}`);
-        const stream = file.createWriteStream({});
+        const stream = file.createWriteStream();
         await stream.on('error', (error) => {
             console.error('stream error', error)
             return error
         });
         await stream.on("finish", async () => {
+            console.warn('setting metadata: ', metadata, customMetadataObject);
             return await file.setMetadata({
-                metadata: object,
+                ...metadata,
+                metadata: { ...customMetadataObject }
             });
         });
         await stream.end(media);
@@ -86,6 +88,10 @@ export class StorageService {
         return storageFile;
     }
 }
+
+
+
+
 
 export class StorageFile {
     buffer: Buffer;
