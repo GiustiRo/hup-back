@@ -62,31 +62,10 @@ export class User {
 
   @Prop({ type: [{}] })
   identities;
-  // : {
-  //   [key: string]: any;
-  // };
-
-  // @Prop({ type: Object })
-  // user_metadata?
 
   @Prop()
   birthdate?: string;
 
-  // custom_metadata?: Partial<iCustom_Metadata>;
-  // identities: iIdentitiesUser[];
-
-  // @Prop()
-  // picture: string = super.picture;
-
-  // getPicture(): string {
-  //   return this.picture;
-  // }
-
-  // @Prop()
-  // age: number;
-
-  // @Prop()
-  // breed: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

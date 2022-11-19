@@ -7,7 +7,7 @@ import { MONGO_CONNECTIONS } from 'src/mongo/connections/mongo-connections.inter
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/mongo/schemas/users/user.schema';
 import { Model } from 'mongoose';
-import { StorageService, StorageBuckets } from 'src/storage/storage/storage.service';
+import { StorageService, StorageBuckets, StorageMymeTypeDicc } from 'src/storage/storage/storage.service';
 
 @Injectable()
 export class UsersService {
@@ -43,7 +43,7 @@ export class UsersService {
         StorageBuckets.AVATARS
       ).then(async (res) => {
         // Update pic to user profile Auth0 / Mongo. (Auth gives problems if idp != auth0).
-        let urlPicture = `https://storage.googleapis.com/hup_avatars/${userId}.png`;
+        let urlPicture = `https://storage.googleapis.com/hup_avatars/${userId}.${StorageMymeTypeDicc[file.mimetype]}`;
         const patchResponse = await this.userModel.findOne({ user_id: userId });
         patchResponse.picture = urlPicture;
         patchResponse.save();
