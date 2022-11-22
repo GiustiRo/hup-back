@@ -1,8 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { HttpService } from '@nestjs/axios'
-import { ConfigService } from '@nestjs/config';
 import { MONGO_CONNECTIONS } from 'src/mongo/connections/mongo-connections.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from 'src/mongo/schemas/users/user.schema';
@@ -12,8 +8,6 @@ import { StorageService, StorageBuckets, StorageMymeTypeDicc } from 'src/storage
 @Injectable()
 export class UsersService {
   constructor(
-    private http: HttpService,
-    private configService: ConfigService,
     private storageService: StorageService,
     @InjectModel(User.name, MONGO_CONNECTIONS.USERS) private userModel: Model<UserDocument>
   ) { }

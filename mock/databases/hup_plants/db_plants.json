@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Gomero Criollo",
+        "family": "Asyindae",
+        "image": {
+            "url": "https://storage.googleapis.com/hup_plants/mock/GOML1.png"
+        },
+        "size": "L",
+        "props": {
+            "LIGHT": 3,
+            "WATER": 2
+        }
+    },
+    {
+        "name": "Cerale",
+        "image": {
+            "url": "https://storage.googleapis.com/hup_plants/mock/GOML1.png"
+        },
+        "size": "M",
+        "props": {
+            "LIGHT": 1,
+            "WATER": 1,
+            "HUMIDITY": true
+        }
+    },
+    {
+        "name": "Espadachin",
+        "image": {
+            "url": "https://storage.googleapis.com/hup_plants/mock/TUNS01.png"
+        },
+        "size": "S",
+        "props": {
+            "LIGHT": 2,
+            "WATER": 3
+        },
+        "alt_props": {
+            "PETFRIENDLY": true,
+            "SEASONAL": true
+        }
+    }
+]
