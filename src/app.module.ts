@@ -11,6 +11,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MONGO_CONNECTIONS, MONGO_CREDS, MONGO_DATABASE } from './mongo/connections/mongo-connections.interface';
 import { PlantsModule } from './resources/plants/plants.module';
+import { LikesModule } from './resources/likes/likes.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { PlantsModule } from './resources/plants/plants.module';
     HttpModule,
     UsersModule,
     StorageModule,
-    PlantsModule
+    PlantsModule,
+    LikesModule
   ],
   controllers: [AppController],
   providers: [AppService],

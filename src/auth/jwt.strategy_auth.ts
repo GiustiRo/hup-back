@@ -8,7 +8,6 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class JwtStrategy_AUTH extends PassportStrategy(BaseStrategy, 'jwt_AUTH') {
-
   constructor(configService: ConfigService) {
     console.warn('constructor() AUTH');
 
@@ -23,10 +22,8 @@ export class JwtStrategy_AUTH extends PassportStrategy(BaseStrategy, 'jwt_AUTH')
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      audience: 'http://localhost:3000/',
-      // audience: configService.get<string>('auth.audience_AUTH_API'),
+      audience: `${configService.get<string>('auth.audience_AUTH_API')}/`,
       issuer: `https://${configService.get<string>('auth.domain')}/`,
-      // issuer: `http://localhost:3000`,
       algorithms: ['RS256'],
     });
   }
@@ -34,18 +31,17 @@ export class JwtStrategy_AUTH extends PassportStrategy(BaseStrategy, 'jwt_AUTH')
   validate(payload: JwtPayload): JwtPayload {
     console.warn('AUTH payload: ', payload);
 
-
-    // const minimumScope = ['read:users', 'update:users'];
-    // if (
-    //   payload?.scope
-    //     ?.split(' ')
-    //     .filter((scope) => minimumScope.indexOf(scope) > -1).length < minimumScope.length
-    // ) {
-    //   throw new UnauthorizedException(
-    //     `JWT does not possess the required scope ('read:users, update:users').
-    //     `,
-    //   );
-    // }
+    const minimumScope = ['openid', 'profile', 'email'];
+    if (
+      payload?.scope
+        ?.split(' ')
+        .filter((scope) => minimumScope.indexOf(scope) > -1).length < minimumScope.length
+    ) {
+      throw new UnauthorizedException(
+        `JWT does not possess the required scope ('read:users, update:users').
+        `,
+      );
+    }
     return payload;
   }
 }

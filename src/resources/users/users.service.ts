@@ -13,7 +13,7 @@ export class UsersService {
   ) { }
 
   async findOne(params): Promise<UserDocument> {
-    return await this.userModel.findOne({ user_id: params.user_id });
+    return await this.userModel.findOne({ user_id: params.user_id }, { custom_metadata: 0 });
   }
 
   async findAll() {

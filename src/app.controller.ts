@@ -23,9 +23,11 @@ export class AppController {
     return this.appService.authenticate().pipe(map(res => res?.data));
   }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Get('protected_M2M')
   getProtectedM2M(): Object {
+    console.warn('protected...?');
+
     return { message: 'This route is protected M2M.' };
   }
 

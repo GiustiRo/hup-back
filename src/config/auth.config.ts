@@ -6,7 +6,7 @@ export default registerAs('auth', () => ({
   clientId_M2M: process.env.AUTH0_CLIENT_ID_M2M,
   clientSecret_M2M: process.env.AUTH0_CLIENT_SECRET_M2M,
 
-  // SPA
+  // AUTH
   clientId_AUTH: process.env.AUTH0_CLIENT_ID_AUTH,
   clientSecret_AUTH: process.env.AUTH0_CLIENT_SECRET_AUTH,
 

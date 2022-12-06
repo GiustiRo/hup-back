@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { iUser } from 'src/resources/users/entities/user.entity';
+import { Like, LikeSchema } from '../likes/like.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -57,7 +58,13 @@ export class User {
   @Prop({ type: {}, default: {} })
   user_metadata;
 
-  @Prop({ type: {}, default: { mongo_synced: true } })
+  @Prop({
+    type: {
+      _id: false,
+      likes: [LikeSchema],
+      mongo_synced: Boolean
+    }, default: { mongo_synced: true }
+  })
   custom_metadata;
 
   @Prop({ type: [{}] })
