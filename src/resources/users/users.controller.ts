@@ -12,7 +12,7 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) { }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Get('userinfo/:id')
   getUserDetails(@Req() req, @Param() params, @Headers() headers): Observable<any> {
     return of(this.usersService.findOne({ user_id: params?.id }));
@@ -23,14 +23,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: Partial<UserDocument>) {
     return of(this.usersService.update(id, updateUserDto));
   }
 
   // Upload file to GCS (then use url to update user details).
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @UseInterceptors(
     FileInterceptor("file", {
       limits: {

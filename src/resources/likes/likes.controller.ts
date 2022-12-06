@@ -8,13 +8,13 @@ export class LikesController {
     console.log('constructor() Likes')
   }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Post('add')
   addLike(@Body() like) {
     return this.likesService.addLike();
   }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Get(':userId/likes')
   findAll(@Param('userId') userId: string) { // Get all user's likes.
     return this.likesService.findAll(userId);
@@ -30,7 +30,7 @@ export class LikesController {
   //   return this.likesService.update(+id, updateLikeDto);
   // }
 
-  @UseGuards(AuthGuard('jwt_M2M'))
+  @UseGuards(AuthGuard('jwt_AUTH'))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.likesService.remove(+id);

@@ -20,27 +20,25 @@ export class JwtStrategy_AUTH extends PassportStrategy(BaseStrategy, 'jwt_AUTH')
           'auth.domain',
         )}/.well-known/jwks.json`,
       }),
+      handleSigningKeyError: (err) => console.log(err),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      audience: `${configService.get<string>('auth.audience_AUTH_API')}/`,
+      // audience: `${configService.get<string>('auth.audience_AUTH_API')}/`,
       issuer: `https://${configService.get<string>('auth.domain')}/`,
       algorithms: ['RS256'],
     });
+
   }
 
   validate(payload: JwtPayload): JwtPayload {
     console.warn('AUTH payload: ', payload);
-
     const minimumScope = ['openid', 'profile', 'email'];
     if (
       payload?.scope
         ?.split(' ')
         .filter((scope) => minimumScope.indexOf(scope) > -1).length < minimumScope.length
     ) {
-      throw new UnauthorizedException(
-        `JWT does not possess the required scope ('read:users, update:users').
-        `,
-      );
+      throw new UnauthorizedException(`JWT does not possess the required scope.`);
     }
     return payload;
   }
