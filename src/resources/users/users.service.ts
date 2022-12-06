@@ -12,16 +12,16 @@ export class UsersService {
     @InjectModel(User.name, MONGO_CONNECTIONS.USERS) private userModel: Model<UserDocument>
   ) { }
 
-  async findOne(params): Promise<UserDocument> {
-    return await this.userModel.findOne({ user_id: params.user_id }, { custom_metadata: 0 });
+  async findOne(user_id): Promise<UserDocument> {
+    return await this.userModel.findOne({ user_id }, { custom_metadata: 0 });
   }
 
   async findAll() {
     return await this.userModel.find();
   }
 
-  async update(user_id: string, updateUserDto: Partial<UserDocument>) {
-    await this.userModel.findByIdAndUpdate(user_id, { ...updateUserDto }, { returnDocument: 'after' })
+  async update(updateUserDto: Partial<UserDocument>) {
+    await this.userModel.findOneAndUpdate({ user_id: updateUserDto.user_id }, { ...updateUserDto }, { returnDocument: 'after' })
     return { message: 'Tus datos se actualizaron con éxito!' };;
   }
 

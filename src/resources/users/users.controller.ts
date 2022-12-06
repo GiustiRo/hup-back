@@ -13,9 +13,9 @@ export class UsersController {
   ) { }
 
   @UseGuards(AuthGuard('jwt_AUTH'))
-  @Get('userinfo/:id')
-  getUserDetails(@Req() req, @Param() params, @Headers() headers): Observable<any> {
-    return of(this.usersService.findOne({ user_id: params?.id }));
+  @Get('userinfo')
+  getUserDetails(@Req() req): Observable<any> {
+    return of(this.usersService.findOne(req?.user.sub));
   }
 
   @Get()
@@ -24,9 +24,9 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard('jwt_AUTH'))
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: Partial<UserDocument>) {
-    return of(this.usersService.update(id, updateUserDto));
+  @Put('update')
+  update(@Body() updateUserDto: Partial<UserDocument>) {
+    return of(this.usersService.update(updateUserDto));
   }
 
   // Upload file to GCS (then use url to update user details).
@@ -40,12 +40,8 @@ export class UsersController {
     })
   )
   @Post('profile-picture')
-  async uploadMedia(
-    @UploadedFile() file: Express.Multer.File,
-    @Body("userId") userId: string,
-    @Headers() headers
-  ) {
-    return of(this.usersService.updatePicture(file, userId))
+  async uploadMedia(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    return of(this.usersService.updatePicture(file, req?.user?.sub))
   }
 
   // This controller will not Create/Delete users for now => Auth0 Server does.

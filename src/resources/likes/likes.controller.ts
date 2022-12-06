@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -10,14 +10,15 @@ export class LikesController {
 
   @UseGuards(AuthGuard('jwt_AUTH'))
   @Post('add')
-  addLike(@Body() like) {
+  addLike(@Req() req, @Body() like) {
+    console.warn(req.user);
     return this.likesService.addLike();
   }
 
   @UseGuards(AuthGuard('jwt_AUTH'))
-  @Get(':userId/likes')
-  findAll(@Param('userId') userId: string) { // Get all user's likes.
-    return this.likesService.findAll(userId);
+  @Get('')
+  findAll(@Req() req) { // Get all user's likes.
+    return this.likesService.findAll(req.user?.sub);
   }
 
   // @Get(':id')
