@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Put } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -9,31 +9,29 @@ export class LikesController {
   }
 
   @UseGuards(AuthGuard('jwt_AUTH'))
-  @Post('add')
-  addLike(@Req() req, @Body() like) {
-    console.warn(req.user);
-    return this.likesService.addLike();
-  }
-
-  @UseGuards(AuthGuard('jwt_AUTH'))
   @Get('')
   findAll(@Req() req) { // Get all user's likes.
     return this.likesService.findAll(req.user?.sub);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.likesService.findOne(+id);
-  // }
+  @UseGuards(AuthGuard('jwt_AUTH'))
+  @Post('like')
+  addLike(@Req() req, @Body() like) {
+    console.warn(req.user);
+    return this.likesService.addLike(like, req.user?.sub);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateLikeDto) {
-  //   return this.likesService.update(+id, updateLikeDto);
-  // }
+  @UseGuards(AuthGuard('jwt_AUTH'))
+  @Put(':id')
+  update(@Param('id') id: string, @Body() body, @Req() req) {
+    console.warn(id, body, req.user?.sub);
+
+    return this.likesService.update(id, body, req.user?.sub);
+  }
 
   @UseGuards(AuthGuard('jwt_AUTH'))
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.likesService.remove(+id);
+  remove(@Req() req, @Param('id') id: string) {
+    return this.likesService.remove(id, req.user?.sub);
   }
 }
